@@ -1,0 +1,10 @@
+venv
+mysite/mysite/__pycache__
+mysite/authenticate/__pycache__
+**/migrations/*.py
+!**/migrations/__init__.py
+# mysite/authenticate/migrations
+
+mysite/db.sqlite3
+*.pyc
+*.pyo

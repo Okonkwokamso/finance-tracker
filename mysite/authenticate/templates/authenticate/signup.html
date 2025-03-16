@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h2>Sign Up</h2>
+
+  <form method="post">
+    {% csrf_token %}
+
+    {% if form.errors %}
+      <div style="color: red;">
+        <ul>
+          {% for field, errors in form.errors.items %}
+            {% for error in errors %}
+              <li>{{ field|title }}: {{ error }}</li>
+            {% endfor %}
+          {% endfor %}
+        </ul>
+      </div>
+    {% endif %}
+
+    <label for="id_first_name">First Name:</label>
+    <input type="text" name="first_name" id="id_first_name" required>
+
+    <label for="id_last_name">Last Name:</label>
+    <input type="text" name="last_name" id="id_last_name" required>
+
+    <label for="id_email">Email:</label>
+    <input type="email" name="email" id="id_email" required>
+
+    <label for="id_password1">Password:</label>
+    <input type="password" name="password1" id="id_password1" required>
+
+    <label for="id_password2">Confirm Password:</label>
+    <input type="password" name="password2" id="id_password2" required>
+
+    <button type="submit">Sign Up</button>
+  </form>
+
+  <p>Already have an account? <a href="{% url 'login' %}">Log in</a></p>
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign Up</title>
+</head>
+<body>
+  <h2>Sign Up</h2>
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Signup</button>
+  </form>
+  
+</body>
+</html> -->
