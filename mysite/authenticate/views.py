@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, logout
 from django.contrib import messages
+from django.http import HttpResponse
 from .forms import UserSignupForm, UserLoginForm
 from .models import CustomUser
 
@@ -21,7 +22,8 @@ def signup(request):
       messages.success(request, 'Account created successfully')
       # Logs user in
       login(request, user)
-      return redirect('dashboard') 
+      return redirect('dashboard')
+      # return redirect('dashboard') 
   else:
     form = UserSignupForm()
   
@@ -54,4 +56,6 @@ def user_logout(request):
   return redirect('login')
 
 
-
+def dashboard(request):
+  html_content = "<h6>Welcome to the Dashboard</h6>"
+  return HttpResponse(html_content)
