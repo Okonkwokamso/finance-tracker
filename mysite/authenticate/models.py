@@ -1,5 +1,7 @@
-from django.contrib.auth.models import AbstractUser, BaseUserManager
 from django.db import models
+from django.conf import settings
+from django.contrib.auth.models import AbstractUser, BaseUserManager
+
 
 # Create your models here.
 
@@ -46,3 +48,31 @@ class CustomUser(AbstractUser):
 
   def __str__(self):
     return self.email
+  
+class Income(models.Model):
+  user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+  amount = models.DecimalField(max_digits=10, decimal_places=2)
+  source = models.CharField(max_length=150)
+  date = models.DateField(auto_now_add=True)
+  
+  def __str__(self):
+    return f"{self.user.email} - {self.source}: ${self.amount}"
+  
+class Expense(models.Model):
+  user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+  amount = models.DecimalField(max_digits=10, decimal_places=2)
+  category = models.CharField(max_length=150) 
+  date = models.DateField(auto_now_add=True)
+
+  def __str__(self):
+    return f"{self.user.email} - {self.category}: ${self.amount}"
+  
+class Budget(models.Model):
+  user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+  monthly_limit = models.DecimalField(max_digits=10, decimal_places=2)
+  created_at = models.DateField(auto_now_add=True)
+
+  def __str__(self):
+    return f"{self.user.email} - Budget: ${self.monthly_limit}"
+
+
