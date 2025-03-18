@@ -1,7 +1,6 @@
-from django.db import models
 from django.conf import settings
 from django.contrib.auth.models import AbstractUser, BaseUserManager
-
+from django.db import models
 
 # Create your models here.
 
@@ -56,7 +55,7 @@ class Income(models.Model):
   date = models.DateField(auto_now_add=True)
   
   def __str__(self):
-    return f"{self.user.email} - {self.source}: ${self.amount}"
+    return f"{self.user.first_name} {self.user.last_name} - {self.source}: ${self.amount}"
   
 class Expense(models.Model):
   user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
@@ -65,7 +64,7 @@ class Expense(models.Model):
   date = models.DateField(auto_now_add=True)
 
   def __str__(self):
-    return f"{self.user.email} - {self.category}: ${self.amount}"
+    return f"{self.user.first_name} {self.user.last_name} - {self.category}: ${self.amount}"
   
 class Budget(models.Model):
   user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
@@ -73,6 +72,6 @@ class Budget(models.Model):
   created_at = models.DateField(auto_now_add=True)
 
   def __str__(self):
-    return f"{self.user.email} - Budget: ${self.monthly_limit}"
+    return f"{self.user.first_name} {self.user.last_name} - Budget: ${self.monthly_limit}"
 
 
