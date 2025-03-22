@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h2>Expense Details</h2>
+
+  <p><a href="{% url 'add-expense' %}">Add New Expense</a></p>
+
+  <ul>
+    {% for expense in expenses %}
+      <li>{{ expense.source }} - {{ expense.amount }} ({{expense.date}}) </li>
+    {% empty %}
+      <p>No expense found.</p>
+    {% endfor %}
+  </ul>
+{% endblock %}
+
+

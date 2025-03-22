@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h2>Budget Details</h2>
+
+  {% if budget %}
+    <p>Monthly Limit: {{ budget.monthly_limit }}</p>
+  {% else %}
+    <p>No budget set. <a href="{% url 'set-budget' %}">Set a Budget</a></p>
+  {% endif %}
+
+{% endblock %}

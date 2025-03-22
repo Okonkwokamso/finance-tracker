@@ -4,7 +4,7 @@ from django.contrib import messages
 from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
 from .forms import UserSignupForm, UserLoginForm, IncomeForm, ExpenseForm, BudgetForm
-from .models import CustomUser, Budget
+from .models import CustomUser, Budget, Income, Expense
 
 # Create your views here.
 def signup(request):
@@ -59,11 +59,54 @@ def user_logout(request):
 
 def dashboard(request):
   html_content = "<h6>Welcome to the Dashboard</h6>" \
-  "<a href='/authenticate/add-income/'>Add Income</a><br>" \
-  "<a href='/authenticate/add-expense/'>Add Expense</a><br>" \
-  "<a href='/authenticate/set-budget/'>Set Budget</a><br>" \
+  "<a href='/authenticate/income/'>Income</a><br>" \
+  "<a href='/authenticate/expense/'>Expense</a><br>" \
+  "<a href='/authenticate/budget/'>Budget</a><br>" \
   "<a href='/authenticate/logout/'>Logout</a>"
   return HttpResponse(html_content)
+
+@login_required
+def income(request):
+  html_content = "<h6>Welcome to the Income Page</h6>" \
+  "<a href='/authenticate/add-income/'>Add Income</a><br>" \
+  "<a href='/authenticate/view-income/'>View Income</a><br>" \
+  "<a href='/authenticate/dashboard/'>Dashboard</a><br>" \
+  "<a href='/authenticate/logout/'>Logout</a>"
+  return HttpResponse(html_content)
+
+@login_required
+def expense(request):
+  html_content = "<h6>Welcome to the Expense Page</h6>" \
+  "<a href='/authenticate/add-expense/'>Add Expense</a><br>" \
+  "<a href='/authenticate/view-expense/'>View Expense</a><br>" \
+  "<a href='/authenticate/dashboard/'>Dashboard</a><br>" \
+  "<a href='/authenticate/logout/'>Logout</a>"
+  return HttpResponse(html_content)
+
+@login_required
+def budget(request):
+  html_content = "<h6>Welcome to the Budget Page</h6>" \
+  "<a href='/authenticate/set-budget/'>Set Budget</a><br>" \
+  "<a href='/authenticate/view-budget/'>View Budget</a><br>" \
+  "<a href='/authenticate/dashboard/'>Dashboard</a><br>" \
+  "<a href='/authenticate/logout/'>Logout</a>"
+  return HttpResponse(html_content)
+
+@login_required
+def view_income(request):
+  incomes = Income.objects.filter(user=request.user).order_by('-date')
+  return render(request, 'authenticate/view_income.html', {'incomes': incomes})
+
+@login_required
+def view_expense(request):
+  expenses = Expense.objects.filter(user=request.user).order_by('-date')
+  return render(request, 'authenticate/view_expense.html', {'expenses': expenses})
+
+@login_required
+def view_budget(request):
+  budget = Budget.objects.filter(user=request.user).first()
+  return render(request, 'authenticate/view_budget.html', {'budget': budget})
+  
 
 @login_required
 def add_income(request):

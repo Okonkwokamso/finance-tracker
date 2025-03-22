@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h2>Income Details</h2>
+
+  <p><a href="{% url 'add-income' %}">Add New Income</a></p>
+
+  <ul>
+    {% for income in incomes %}
+      <li>{{ income.source }} - {{ income.amount }} ({{income.date}}) </li>
+    {% empty %}
+      <p>No income found.</p>
+    {% endfor %}
+  </ul>
+{% endblock %}
+
+
