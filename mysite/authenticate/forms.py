@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
-from .models import CustomUser
+from .models import CustomUser, Income, Expense, Budget
 
 class UserSignupForm(UserCreationForm):
   email = forms.EmailField(required=True)
@@ -22,3 +22,17 @@ class UserLoginForm(AuthenticationForm):
   # Using email instead of username login
   username = forms.EmailField(label='Email', required=True)
 
+class IncomeForm(forms.ModelForm):
+  class Meta:
+    model = Income
+    fields = ['amount', 'source']
+
+class ExpenseForm(forms.ModelForm):
+  class Meta:
+    model = Expense
+    fields = ['amount', 'category']
+
+class BudgetForm(forms.ModelForm):
+  class Meta:
+    model = Budget
+    fields = ['monthly_limit']

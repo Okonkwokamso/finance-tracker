@@ -68,7 +68,7 @@ class Expense(models.Model):
   
 class Budget(models.Model):
   user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-  monthly_limit = models.DecimalField(max_digits=10, decimal_places=2)
+  monthly_limit = models.DecimalField(max_digits=10, decimal_places=2, null=False, blank=False, default=0.00)
   created_at = models.DateField(auto_now_add=True)
 
   def __str__(self):
