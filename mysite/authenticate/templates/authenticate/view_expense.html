@@ -7,7 +7,7 @@
 
   <ul>
     {% for expense in expenses %}
-      <li>{{ expense.source }} - {{ expense.amount }} ({{expense.date}}) </li>
+      <li>{{ expense.category }} - ${{ expense.amount }} ({{expense.date}}) </li>
     {% empty %}
       <p>No expense found.</p>
     {% endfor %}

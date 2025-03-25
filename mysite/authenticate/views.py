@@ -3,6 +3,8 @@ from django.contrib.auth import login, logout
 from django.contrib import messages
 from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
+from django.utils.timezone import now
+from django.db import models
 from .forms import UserSignupForm, UserLoginForm, IncomeForm, ExpenseForm, BudgetForm
 from .models import CustomUser, Budget, Income, Expense
 
@@ -110,7 +112,24 @@ def add_expense(request):
     if form.is_valid():
       expense = form.save(commit=False)
       expense.user = request.user
+      expense.date = now().date()
       expense.save()
+
+      # Calculate total expenses for the current month
+      current_month_expense = Expense.objects.filter(
+        user=request.user, 
+        date__month=now().month,
+        date__year=now().year
+      ).aggregate(total=models.Sum('amount'))['total'] or 0
+
+      # Get the budget for the current month
+      budget = Budget.objects.filter(user=request.user).first()
+
+      if budget and current_month_expense > budget.monthly_limit:
+        warning_message = f"Your total monthly expenses ${current_month_expense} has exceeded your budget ${budget.monthly_limit}"
+        
+        messages.warning(request, warning_message)
+
       messages.success(request, 'Expense added successfully')
       return redirect('dashboard')
   else:
